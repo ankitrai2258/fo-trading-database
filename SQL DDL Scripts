@@ -1,0 +1,33 @@
+CREATE TABLE exchanges (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE instruments (
+    id SERIAL PRIMARY KEY,
+    symbol VARCHAR(20) NOT NULL,
+    instrument VARCHAR(20),
+    exchange_id INT REFERENCES exchanges(id)
+);
+
+CREATE TABLE contracts (
+    id SERIAL PRIMARY KEY,
+    instrument_id INT REFERENCES instruments(id),
+    expiry_dt DATE,
+    strike_pr NUMERIC,
+    option_typ VARCHAR(5)
+);
+
+CREATE TABLE trades (
+    id BIGSERIAL PRIMARY KEY,
+    contract_id INT REFERENCES contracts(id),
+    timestamp DATE,
+    open NUMERIC,
+    high NUMERIC,
+    low NUMERIC,
+    close NUMERIC,
+    settle_pr NUMERIC,
+    val_inlakh NUMERIC,
+    open_int BIGINT,
+    chg_in_oi BIGINT
+);
